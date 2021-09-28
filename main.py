@@ -98,6 +98,20 @@ def extended_transition_function(state, word):
         return final_states
 
 
+def solver(stateX, stringX):
+    # print("\nInicia debug \n")
+    result = extended_transition_function(stateX, stringX)
+    # print("resultado: ", result)
+    intersection_result = intersection(final_states, result)
+
+    if len(result) == 0:
+        print("\nla cadena: {} no es valida".format(stringX))
+    elif len(intersection_result) > 0:
+        print("\nLa cadena: {} es valida".format(stringX))
+    else:
+        print("\nla cadena: {} no es valida".format(stringX))
+
+
 def main():
     global file, string_to_check
     file = sys.argv[1]
@@ -107,25 +121,16 @@ def main():
 
     read_document(file)
 
-    """print("states:", states)
-    print("alphabet:", alphabet)
-    print("initial_state:", initial_state)
-    print("final_states:", final_states)
-    print("transition_table:", transition_table) """
+    solver(initial_state, string_to_check)
 
-    #print("\nInicia debug \n")
-    result = extended_transition_function(initial_state, string_to_check)
-    #print("resultado: ", result)
-    intersection_result = intersection(final_states, result)
-
-    if len(result) == 0:
-        print("\nLa cadena no es valida")
-    elif len(intersection_result) > 0:
-        print("\nLa cadena es valida")
-    else:
-        print("\nla cadena no es valida")
-
-
+    while True:
+        again = input("Deseas ingresar otra cadena? s/n: ")
+        if again == "s":
+            cadena_new = input("Ingresa una nueva cadena: ")
+            solver(initial_state, cadena_new)
+        else:
+            print("gracias por usar mi programa \n")
+            exit()
 
 
 main()
