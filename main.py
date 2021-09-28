@@ -55,7 +55,6 @@ def create_NDFA():
 # This function will return the states where you can go from state with character
 def transition_function(state, character):
     global transition_table
-    print()
     return transition_table[state].get(character)
 
 
@@ -74,49 +73,49 @@ def intersection(state1, state2):
 
 # This is the main function that has the recursion to verify if the input is valid
 def extended_transition_function(state, word):
-    print(word)
+    #print(word)
     if len(word) == 0:
-        print(state)
+        #print(state)
         return state
     elif len(word) == 1:
-        print("word: ", word, "transition: ", transition_table[state].get(word))
+        #print("word: ", word, "transition: ", transition_table[state].get(word))
         return transition_table[state].get(word)
     else:
         return_states = extended_transition_function(state, word[0:-1])
         char_verify = word[-1]
-        print("caracter a ver: ", char_verify)
-        print("return states ", return_states)
+        #print("caracter a ver: ", char_verify)
+        #print("return states ", return_states)
 
         final_states = []
         for state_temp in return_states:
-            print("state_temp: ", state_temp, "word: ", char_verify)
-            print("llamando a transición: ", transition_function(state_temp, char_verify))
+            #print("state_temp: ", state_temp, "word: ", char_verify)
+            #print("llamando a transición: ", transition_function(state_temp, char_verify))
             container = transition_function(state_temp, char_verify)
             if container is not None:
                 final_states = union(final_states, container)
 
-        print("final states: ", final_states)
+        #print("final states: ", final_states)
         return final_states
 
 
 def main():
     global file, string_to_check
-    #file = sys.argv[1]
-    #string_to_check = sys.argv[2]
-    file = "test1.txt"
-    string_to_check = "abab"
+    file = sys.argv[1]
+    string_to_check = sys.argv[2]
+    #file = "test1.txt"
+    #string_to_check = "abab"
 
     read_document(file)
 
-    print("states:", states)
+    """print("states:", states)
     print("alphabet:", alphabet)
     print("initial_state:", initial_state)
     print("final_states:", final_states)
-    print("transition_table:", transition_table)
+    print("transition_table:", transition_table) """
 
-    print("\nInicia debug \n")
+    #print("\nInicia debug \n")
     result = extended_transition_function(initial_state, string_to_check)
-    print("resultado: ", result)
+    #print("resultado: ", result)
     intersection_result = intersection(final_states, result)
 
     if len(result) == 0:
